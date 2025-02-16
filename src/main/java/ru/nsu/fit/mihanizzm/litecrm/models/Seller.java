@@ -1,5 +1,6 @@
 package ru.nsu.fit.mihanizzm.litecrm.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,7 +52,7 @@ public class Seller {
     @NotAudited
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Transaction> transactions = new ArrayList<>();
 
     @PrePersist

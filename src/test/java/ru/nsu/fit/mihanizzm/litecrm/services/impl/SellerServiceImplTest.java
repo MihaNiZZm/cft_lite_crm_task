@@ -389,27 +389,37 @@ class SellerServiceImplTest {
     @Test
     void shouldDeleteSeller() {
         Integer id = 1;
+        Seller seller = new Seller();
+        seller.setId(id);
+        seller.setName("Bob");
+        seller.setContactInfo("bob@gmail.com");
+        seller.setRegistrationDate(LocalDateTime.of(2025, Month.JANUARY, 1, 0, 0));
 
-        when(sellerRepository.existsById(id)).thenReturn(true);
+        when(sellerRepository.findById(id)).thenReturn(Optional.of(seller));
 
         sellerService.deleteSeller(id);
 
-        verify(sellerRepository, times(1)).existsById(id);
-        verify(sellerRepository, times(1)).deleteById(id);
+        verify(sellerRepository, times(1)).findById(id);
+        verify(sellerRepository, times(1)).delete(seller);
     }
 
     @Test
     void shouldThrowSellerNotFoundExceptionWhenSellerNotFoundOnDelete() {
         Integer id = 1;
+        Seller seller = new Seller();
+        seller.setId(id);
+        seller.setName("Bob");
+        seller.setContactInfo("bob@gmail.com");
+        seller.setRegistrationDate(LocalDateTime.of(2025, Month.JANUARY, 1, 0, 0));
 
-        when(sellerRepository.existsById(id)).thenReturn(false);
+        when(sellerRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> sellerService.deleteSeller(id))
                 .isInstanceOf(SellerNotFoundException.class)
                 .hasFieldOrPropertyWithValue("id", id);
 
-        verify(sellerRepository, times(1)).existsById(id); // Should try to find the seller
-        verify(sellerRepository, times(0)).deleteById(id); // Should delete nothing
+        verify(sellerRepository, times(1)).findById(id); // Should try to find the seller
+        verify(sellerRepository, times(0)).delete(seller); // Should delete nothing
     }
 
     @Test

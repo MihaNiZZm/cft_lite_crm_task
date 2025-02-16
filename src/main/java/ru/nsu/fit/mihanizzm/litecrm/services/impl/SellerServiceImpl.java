@@ -86,10 +86,10 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public void deleteSeller(Integer id) {
         log.info("deleting a seller with id: {}", id);
-        if (!sellerRepository.existsById(id)) {
-            throw new SellerNotFoundException(id);
-        }
-        sellerRepository.deleteById(id);
+        Seller seller = sellerRepository.findById(id)
+                .orElseThrow(() -> new SellerNotFoundException(id));
+
+        sellerRepository.delete(seller);
         log.info("successfully deleted a seller with id: {}", id);
     }
 
