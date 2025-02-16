@@ -1,0 +1,9 @@
+spring:
+  flyway:
+    enabled: true
+  jpa:
+    properties:
+      hibernate:
+        envers.audit_table_suffix: _aud
+    hibernate:
+      ddl-auto: create-drop

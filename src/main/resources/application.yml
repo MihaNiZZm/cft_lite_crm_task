@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: LiteCRM
+        version: 0.0.1
+    datasource:
+        url: ${DB_URI:jdbc:postgresql://localhost:5432/lite-crm-db}
+        username: ${DB_USERNAME:test-user}
+        password: ${DB_PASSWORD:easy-password}
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true # For debugging purposes
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+    port: 8080

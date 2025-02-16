@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  lite_crm_database:
+    image: postgres:17
+    container_name: lite_crm_db
+    environment:
+      - POSTGRES_DB=lite-crm-db
+      - POSTGRES_USER=test-user
+      - POSTGRES_PASSWORD=easy-password
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  lite_crm_backend:
+    container_name: lite_crm_back
+    environment:
+      - DB_URI=jdbc:postgresql://lite_crm_database:5432/lite-crm-db
+      - DB_USERNAME=test-user
+      - DB_PASSWORD=easy-password
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - lite_crm_database
+
+volumes:
+  postgres_data:

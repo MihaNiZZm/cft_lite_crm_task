@@ -1,0 +1,78 @@
+plugins {
+	id 'jacoco'
+	id 'java'
+	id 'org.springframework.boot' version '3.4.2'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
+group = 'ru.nsu.fit.mihanizzm'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring boot starters
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Springdoc (for Swagger)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+	runtimeOnly 'org.flywaydb:flyway-database-postgresql:11.3.1'
+
+	// Flyway (for db migrations)
+	implementation 'org.flywaydb:flyway-core:11.3.1'
+
+	// Mapstruct (for mapping beans)
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
+	// Hibernate Envers (for entity audit)
+	implementation 'org.hibernate:hibernate-envers:6.6.7.Final'
+
+	// Lombok (to get rid of boiler plate code)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// PostgreSQL (db)
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Tests
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+
+	// Lombok and Mapstruct binding
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
