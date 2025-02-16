@@ -17,7 +17,7 @@ jacocoTestReport {
 }
 
 group = 'ru.nsu.fit.mihanizzm'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
 	toolchain {
@@ -67,6 +67,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
+
 
 	// Lombok and Mapstruct binding
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
